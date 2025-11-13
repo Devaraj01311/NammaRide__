@@ -14,9 +14,14 @@ const adminRoutes = require('./routes/admin.routes');
 connectToDb();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'], 
-  credentials: true,               
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    process.env.FRONTEND_URL, 
+  ],
+  credentials: true,
 }));
+
 console.log("JWT_SECRET:", process.env.JWT_SECRET); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
