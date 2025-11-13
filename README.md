@@ -479,3 +479,386 @@ GET /rides/get-fare?pickup=1600+Amphitheatre+Parkway,+Mountain+View,+CA&destinat
   "message": "Error message"
 }
 ```
+# 🛠️ Admin Backend API Documentation
+
+## `/admin/login` Endpoint
+
+### Description
+
+Authenticates an admin using their email and password, returning a JWT token upon successful login.
+
+### HTTP Method
+
+`POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `email` (string, required): Admin’s email address (must be a valid email).
+- `password` (string, required): Admin’s password (minimum 6 characters).
+
+### Example Response
+
+```json
+{
+  "admin": {
+    "_id": "admin12345",
+    "email": "admin@nammaride.com",
+    "role": "superadmin"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..."
+}
+Error Response
+json
+Copy code
+{
+  "message": "Invalid email or password"
+}
+/admin/profile Endpoint
+Description
+Retrieves the profile information of the currently authenticated admin.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header:
+Authorization: Bearer <token>
+
+Example Response
+json
+Copy code
+{
+  "admin": {
+    "_id": "admin12345",
+    "email": "admin@nammaride.com",
+    "role": "superadmin",
+    "createdAt": "2025-03-10T12:00:00.000Z"
+  }
+}
+Error Response
+json
+Copy code
+{
+  "message": "Unauthorized - Invalid or missing token"
+}
+/admin/logout Endpoint
+Description
+Logs out the currently authenticated admin and blacklists the provided JWT token.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header or cookie.
+
+Example Response
+json
+Copy code
+{
+  "message": "Admin logged out successfully"
+}
+/admin/get-users Endpoint
+Description
+Fetches all registered users in the system.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Example Response
+json
+Copy code
+[
+  {
+    "_id": "user123",
+    "fullname": { "firstname": "Ravi", "lastname": "Kumar" },
+    "email": "ravi@example.com",
+    "status": "active",
+    "createdAt": "2025-04-10T10:00:00Z"
+  },
+  {
+    "_id": "user124",
+    "fullname": { "firstname": "Sneha", "lastname": "Patil" },
+    "email": "sneha@example.com",
+    "status": "active",
+    "createdAt": "2025-04-15T09:30:00Z"
+  }
+]
+Error Response
+json
+Copy code
+{
+  "message": "Failed to fetch users"
+}
+/admin/get-captains Endpoint
+Description
+Retrieves all registered captains from the system.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Example Response
+json
+Copy code
+[
+  {
+    "_id": "captain001",
+    "fullname": { "firstname": "Rajesh", "lastname": "Naik" },
+    "email": "rajesh@example.com",
+    "vehicle": {
+      "color": "White",
+      "plate": "KA05AB1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "verified": true
+  },
+  {
+    "_id": "captain002",
+    "fullname": { "firstname": "Anita", "lastname": "Sharma" },
+    "email": "anita@example.com",
+    "vehicle": {
+      "color": "Black",
+      "plate": "KA03CD5678",
+      "capacity": 2,
+      "vehicleType": "auto"
+    },
+    "verified": false
+  }
+]
+Error Response
+json
+Copy code
+{
+  "message": "Failed to retrieve captains"
+}
+/admin/verify-captain/:id Endpoint
+Description
+Verifies or rejects a captain's registration request.
+
+HTTP Method
+PUT
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Request Parameters
+id (string, required): The ID of the captain to verify.
+
+Request Body
+json
+Copy code
+{
+  "verified": true
+}
+Example Response
+json
+Copy code
+{
+  "message": "Captain verified successfully",
+  "captain": {
+    "_id": "captain001",
+    "fullname": { "firstname": "Rajesh", "lastname": "Naik" },
+    "verified": true
+  }
+}
+Error Response
+json
+Copy code
+{
+  "message": "Captain not found"
+}
+/admin/delete-user/:id Endpoint
+Description
+Deletes a user account from the system by ID.
+
+HTTP Method
+DELETE
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Request Parameters
+id (string, required): The ID of the user to delete.
+
+Example Response
+json
+Copy code
+{
+  "message": "User deleted successfully"
+}
+Error Response
+json
+Copy code
+{
+  "message": "User not found"
+}
+/admin/delete-captain/:id Endpoint
+Description
+Deletes a captain account from the system by ID.
+
+HTTP Method
+DELETE
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Request Parameters
+id (string, required): The ID of the captain to delete.
+
+Example Response
+json
+Copy code
+{
+  "message": "Captain deleted successfully"
+}
+Error Response
+json
+Copy code
+{
+  "message": "Captain not found"
+}
+/admin/get-all-rides Endpoint
+Description
+Retrieves all rides (completed, active, and cancelled) for admin monitoring.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Example Response
+json
+Copy code
+[
+  {
+    "_id": "ride123",
+    "user": "user123",
+    "captain": "captain001",
+    "pickup": "Majestic, Bangalore",
+    "destination": "Indiranagar, Bangalore",
+    "fare": 180,
+    "status": "completed",
+    "date": "2025-05-12T10:30:00Z"
+  },
+  {
+    "_id": "ride124",
+    "user": "user124",
+    "captain": "captain002",
+    "pickup": "BTM Layout",
+    "destination": "Electronic City",
+    "fare": 120,
+    "status": "ongoing",
+    "date": "2025-05-13T11:45:00Z"
+  }
+]
+Error Response
+json
+Copy code
+{
+  "message": "Unable to fetch ride data"
+}
+/admin/get-dashboard-stats Endpoint
+Description
+Provides overall system statistics for the admin dashboard.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Example Response
+json
+Copy code
+{
+  "totalUsers": 240,
+  "totalCaptains": 85,
+  "verifiedCaptains": 70,
+  "totalRides": 350,
+  "completedRides": 280,
+  "cancelledRides": 20,
+  "activeRides": 50
+}
+Error Response
+json
+Copy code
+{
+  "message": "Failed to load dashboard statistics"
+}
+/admin/get-feedback Endpoint
+Description
+Retrieves all feedback and complaints submitted by users or captains.
+
+HTTP Method
+GET
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Example Response
+json
+Copy code
+[
+  {
+    "_id": "feedback001",
+    "user": "user123",
+    "message": "Captain was late by 10 minutes",
+    "createdAt": "2025-05-11T09:00:00Z"
+  },
+  {
+    "_id": "feedback002",
+    "captain": "captain001",
+    "message": "User cancelled the ride midway",
+    "createdAt": "2025-05-12T14:30:00Z"
+  }
+]
+Error Response
+json
+Copy code
+{
+  "message": "No feedback found"
+}
+/admin/respond-feedback/:id Endpoint
+Description
+Allows the admin to respond to a specific feedback message.
+
+HTTP Method
+POST
+
+Authentication
+Requires a valid JWT token in the Authorization header.
+
+Request Parameters
+id (string, required): ID of the feedback entry.
+
+Request Body
+json
+Copy code
+{
+  "response": "We have noted your concern and will take appropriate action."
+}
+Example Response
+json
+Copy code
+{
+  "message": "Response sent successfully",
+  "feedback": {
+    "_id": "feedback001",
+    "response": "We have noted your concern and will take appropriate action."
+  }
+}
+Error Response
+json
+Copy code
+{
+  "message": "Failed to send response"
+}
