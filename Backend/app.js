@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require("path");
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -22,6 +23,8 @@ app.use(cors({
   credentials: true,
 }));
 
+
+
 console.log("JWT_SECRET:", process.env.JWT_SECRET); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +41,15 @@ app.use('/captains', captainRoutes);
 app.use('/maps',mapsRoutes);
 app.use('/rides',rideRoutes);
 app.use('/admin', adminRoutes);
+
+
+
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
 
 
 module.exports = app;
