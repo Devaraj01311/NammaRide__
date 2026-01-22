@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <CaptainContext>
      <UserContext>
       <SocketProvider>
-       <BrowserRouter>
+       <BrowserRouter basename="/">
       <App />
     </BrowserRouter>
     </SocketProvider>
