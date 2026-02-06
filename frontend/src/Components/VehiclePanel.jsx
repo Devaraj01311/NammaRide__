@@ -22,7 +22,7 @@ const VehiclePanel = ({ fare, setVehiclePanel, setConfirmRidePanel ,selectVehicl
       >
         <img
           className='h-10'
-          src='https://i.pinimg.com/originals/93/c1/05/93c105244c0a3de81267a89cb13386f7.png'
+          src='/public/car.png'
           alt='UberGo'
         />
         <div className='ml-2 w-1/2'>
@@ -43,7 +43,7 @@ const VehiclePanel = ({ fare, setVehiclePanel, setConfirmRidePanel ,selectVehicl
       >
         <img
           className='h-10'
-          src='https://tse4.mm.bing.net/th/id/OIP.znY96OhfmQ9RecEw45FS_AHaE7?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3'
+          src='/public/bike.jpeg'
           alt='Moto'
         />
         <div className='ml-2 w-1/2'>
@@ -64,7 +64,7 @@ const VehiclePanel = ({ fare, setVehiclePanel, setConfirmRidePanel ,selectVehicl
       >
         <img
           className='h-10'
-          src='https://clipart-library.com/2023/Uber_Auto_312x208_pixels_Mobile.png'
+          src='/public/auto.png'
           alt='UberAuto'
         />
         <div className='ml-2 w-1/2'>

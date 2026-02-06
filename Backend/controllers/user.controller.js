@@ -82,7 +82,7 @@ module.exports.forgotPassword = async function (req, res, next) {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: 'Email required' });
 
-    // ✅ FIX: use userModel instead of User
+    // use userModel instead of User
     const user = await userModel.findOne({ email: email.toLowerCase() });
     if (!user) {
       // For security, respond with 200 even if user not found (prevent enumeration)
@@ -91,7 +91,7 @@ module.exports.forgotPassword = async function (req, res, next) {
 
     // generate token
     const { token, hashed } = generateResetToken();
-    const expires = Date.now() + 1000 * 60 * 60; // 1 hour
+    const expires = Date.now() + 1000 * 60 * 60; 
 
     user.resetPasswordToken = hashed;
     user.resetPasswordExpires = new Date(expires);
@@ -167,3 +167,26 @@ module.exports.resetPassword = async (req, res, next) => {
 };
 
 
+module.exports.guestLoginUser = async (req, res, next) => {
+    try {
+        const guestEmail = "guest@user.com";
+        let user = await userModel.findOne({ email: guestEmail });
+
+        if (!user) {
+            const hashedPassword = await userModel.hashPassword('guest@123');
+            user = await userService.createUser({
+                firstname: 'Guest',
+                lastname: 'User',
+                email: guestEmail,
+                password: hashedPassword
+            });
+        }
+
+        const token = user.generateAuthToken();
+
+        res.cookie('token', token);
+        res.status(200).json({ token, user });
+    } catch (err) {
+        res.status(500).json({ message: "Guest login failed" });
+    }
+}

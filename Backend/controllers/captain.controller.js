@@ -193,6 +193,37 @@ module.exports.resetPassword = async (req, res, next) => {
   }
 };
 
+module.exports.guestLoginCaptain = async (req, res, next) => {
+    try {
+        const guestEmail = "guest@captain.com";
+
+        // Check if guest captain exists
+        let captain = await captainModel.findOne({ email: guestEmail });
+
+        if (!captain) {
+            // Create guest captain with default vehicle info
+            const hashedPassword = await captainModel.hashPassword('guest@123');
+            captain = await captainService.createCaptain({
+                firstname: 'Guest',
+                lastname: 'Captain',
+                email: guestEmail,
+                password: hashedPassword,
+                color: 'Black',
+                plate: 'GUEST-001',
+                capacity: 4,
+                vehicleType: 'car'
+            });
+        }
+
+        // Generate token
+        const token = captain.generateAuthToken();
+
+        res.cookie('token', token);
+        res.status(200).json({ token, captain });
+    } catch (err) {
+        res.status(500).json({ message: "Guest login failed" });
+    }
+}
 
 
 

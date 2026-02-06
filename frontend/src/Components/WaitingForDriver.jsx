@@ -5,17 +5,16 @@ const WaitingForDriver = (props) => {
   const { socket } = useContext(SocketContext);
 
   const vehicleImages = {
-    car: "https://i.pinimg.com/originals/93/c1/05/93c105244c0a3de81267a89cb13386f7.png",
-    motorcycle:
-      "https://tse4.mm.bing.net/th/id/OIP.znY96OhfmQ9RecEw45FS_AHaE7?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-    auto: "https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png",
+     car: "/public/car.png",
+  motorcycle: "/public/bike.jpeg",
+  auto: "/public/auto.png",
   };
 
   useEffect(() => {
     // Listen for ride cancelled event
     socket.on("ride-cancelled-by-captain", (data) => {
-      console.log("🚫 Ride cancelled by captain:", data);
-      props.setWaitingForDriver(false); // ✅ Corrected function call
+      console.log("Ride cancelled by captain:", data);
+      props.setWaitingForDriver(false); 
       props.setVehicleFound(true);
     });
 

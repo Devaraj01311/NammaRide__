@@ -3,9 +3,9 @@ import React from 'react';
 
 const ConfirmRide = (props) => {
 const vehicleImages = {
-  car: "https://i.pinimg.com/originals/93/c1/05/93c105244c0a3de81267a89cb13386f7.png",
-  motorcycle: "https://tse4.mm.bing.net/th/id/OIP.znY96OhfmQ9RecEw45FS_AHaE7?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
-  auto: "https://clipart-library.com/2023/Uber_Auto_312x208_pixels_Mobile.png",
+  car: "/public/car.png",
+  motorcycle: "/public/bike.jpeg",
+  auto: "/public/auto.png",
 };
 
 

@@ -30,7 +30,7 @@ const ResetPassword = () => {
       setMessage(response.data.message);
       setNewPassword('');
       setConfirmPassword('');
-      setTimeout(() => navigate('/login'), 2000); // Redirect to login
+      setTimeout(() => navigate('/login'), 2000); 
     } catch (err) {
       setMessage(err.response?.data?.message || 'Server error');
     } finally {

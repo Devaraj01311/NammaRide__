@@ -23,7 +23,7 @@ const FinishRide = ({ ride, setFinishRidePanel }) => {
         { rideId: ride._id },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ Always send header
+            Authorization: `Bearer ${token}`, 
             "Content-Type": "application/json",
           },
         }
