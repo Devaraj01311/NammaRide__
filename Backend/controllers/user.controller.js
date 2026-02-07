@@ -119,7 +119,7 @@ module.exports.forgotPassword = async function (req, res, next) {
 `;
 
 
-    console.log("📧 Sending reset link to:", user.email);
+    console.log("Sending reset link to:", user.email);
 
     await sendEmail({ to: user.email, subject: 'Reset your password', html });
 
